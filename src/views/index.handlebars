@@ -1,0 +1,47 @@
+<main>
+
+<h3>{{date}}</h3>
+{{!-- {{#if}}
+{{else}}
+{{/if}} --}}
+<h1>PAGINA DE ECOMMERCE</h1>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium placeat optio consectetur, debitis consequuntur eligendi harum illo. Harum, recusandae quasi consequuntur itaque rerum nulla dolores ipsam amet autem, dolorem voluptas.
+Molestiae, magni laborum consequatur eligendi minima tempora praesentium facere placeat quibusdam repellat tempore ratione quod saepe iure possimus laudantium id nisi aliquam aut ea voluptatibus cumque veritatis perferendis non! Asperiores.
+Alias aspernatur dicta culpa explicabo, error tenetur? Corporis voluptate, ipsa fugiat quisquam minima consequuntur blanditiis maiores odit, esse voluptatibus nisi quaerat! Similique sequi est minus ea officia. Voluptatem, ipsum in!
+Natus id fugit necessitatibus, voluptatibus numquam magnam nam reiciendis autem repellendus eos cum amet repellat suscipit dolore quasi dicta quo, est tenetur optio. Beatae praesentium, doloribus debitis nam asperiores laboriosam.
+Aliquam porro voluptas sit, possimus animi veritatis quibusdam officiis suscipit accusamus temporibus neque ipsam deserunt dolorem exercitationem inventore. Quos qui quibusdam tempore, nobis voluptatibus placeat deleniti quidem natus. Voluptate, laudantium!
+Beatae, iure doloremque consequuntur illum adipisci perferendis quibusdam ab ea sapiente rem laboriosam, tempore iusto. Minima itaque perspiciatis numquam illo odio. Repellat architecto itaque in, nemo inventore dolorum dolor. Dicta!
+Eaque voluptatem maxime maiores cumque, amet inventore dolorum ea doloremque quisquam necessitatibus praesentium. Sit vitae nisi, sunt cum illum nam recusandae voluptates facere reiciendis quam tenetur tempora nostrum, quo dicta?
+Quo voluptates, vitae consequatur voluptatem temporibus neque nulla deserunt dolorum beatae nam maiores deleniti assumenda nostrum minima odit provident architecto quis praesentium, quam, necessitatibus sint odio recusandae commodi. Unde, blanditiis!
+Incidunt cum fugiat harum pariatur, magnam blanditiis vitae soluta exercitationem inventore deserunt optio itaque reiciendis et error quo distinctio, ipsam ipsum? Voluptatibus iusto animi eaque aperiam totam rerum odit? Iste.
+Aliquam quod doloremque porro, nesciunt quidem voluptatem, soluta similique illo quia voluptatum facilis consectetur magnam quae deserunt excepturi debitis dolore iste voluptas tempore officia maiores? Quia facilis aliquam velit quisquam.</p>
+
+
+<!-- Agrega las siguientes líneas de código en tu HTML -->
+
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {{#each Productos}}
+      <div class="carousel-item {{#if @first}}active{{/if}}">
+        <div class="d-flex align-items-center justify-content-center">
+          <img src="{{this.photo}}" class="d-block w-50 img-fluid" style="max-height: 500px;" alt="{{this.title}}" loading="lazy">
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  <!-- Controles del carrusel (previo y siguiente) -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<br>
+<br>
+
+
+
+</main>

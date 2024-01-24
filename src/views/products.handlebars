@@ -1,0 +1,13 @@
+<div class="d-flex flex-wrap justify-content-evenly mt-4"> <!-- mt-4 agrega un margen-top de 4 unidades (puedes ajustar según sea necesario) -->
+  {{#each Productos}}
+    <div class="card" style="width: 18rem; margin-bottom: 20px;">
+      <img src="{{this.photo}}" class="card-img-top" alt="{{this.title}}" />
+      <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">{{this.price}}</p>
+        <p class="card-text">Stock: {{this.stock}}</p>
+        <a href="#" class="btn btn-primary">COMPRAR</a>
+      </div>
+    </div>
+  {{/each}}
+</div>
