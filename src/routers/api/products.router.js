@@ -1,12 +1,13 @@
 import { Router } from "express";
 import productManager from "../../02_fs/productManager.js";
 import propsProducts from "../../middlewares/propsProducts.mid.js"
+import isAdmindMid from "../../middlewares/isAdmind.mid.js";
 
 const ProductsRouter = Router();
 
 // Definir los endpoints (POST GET PUT DELETE)
 
-ProductsRouter.post("/",propsProducts, async (req, res,next) => {
+ProductsRouter.post("/", isAdmindMid, propsProducts, async (req, res,next) => {
   try {
     const data = req.body;
     const response = await productManager.create(data);

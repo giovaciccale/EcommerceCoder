@@ -3,7 +3,7 @@ console.log("Este es un console log");
 const socket = io();
 
 // En el cliente
-socket.on("movies", (productos) => {
+socket.on("products", (productos) => {
   const template = productos
     .map(
       (each) => `
@@ -14,25 +14,15 @@ socket.on("movies", (productos) => {
           `
     )
     .join("");
-  document.querySelector("#movies").innerHTML = template;
+  document.querySelector("#products").innerHTML = template;
 });
 
-// socket.on("Welcome", message=>alert(message))
-
-// socket.emit("newProduct",{
-
-//     // title: "Pelicula desde el socket",
-//     // photo: "https://i.pinimg.com/736x/ec/bf/66/ecbf66484f8439fd7021f3ef224a50a8.jpg",
-//     // rice: "data.price",
-//     // stock: "100"
-
-// })
 
 socket.on("new success", (message) => alert(message));
 
-document.querySelector("#newProduct").addEventListener("click", (event) => {
+document.querySelector("#newProduct").addEventListener("click", (product) => {
   //para no recargar la pagina
-  event.preventDefault();
+  product.preventDefault();
   const title = document.querySelector("#title").value;
   const photo = document.querySelector("#photo").value;
   const price = document.querySelector("#price").value;

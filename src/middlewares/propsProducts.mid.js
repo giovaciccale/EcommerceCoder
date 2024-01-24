@@ -1,13 +1,12 @@
-function propsProducts(req, res, next){
-    const {title, photo, price} = req.body;
-    if (!title || ! photo || ! price){
-        return res.json({
-            status: 400,
-            message: `${req.method} ${req.url} fields missing`,
-        })
-    }else{
-        return next();
-    }
+import propsProductsUtils from "../utils/propsProducts.utils.js";
+
+function propsProducts(req, res, next) {
+  try {
+    propsProductsUtils(req.body);
+    return next();
+  } catch (error) {
+    return next(error);
+  }
 }
 
-export default propsProducts
+export default propsProducts;

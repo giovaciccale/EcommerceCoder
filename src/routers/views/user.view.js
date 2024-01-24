@@ -12,5 +12,14 @@ userRouter.get("/register", async (req, res, next) => {
   }
 });
 
+userRouter.get("/chat", async (req, res, next) => {
+  try {
+   return res.render("chat",{})
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 
 export default userRouter;
