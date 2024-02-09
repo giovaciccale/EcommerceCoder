@@ -1,12 +1,13 @@
 import { Router } from "express";
-import userManager from "./../../02_fs/userManager.js";
+// import users from "./../../02_fs/userManager.js";
+import { users } from "../../mongo/manager.mongo.js"
 
 const userRouter = Router();
 
 userRouter.get("/register", async (req, res, next) => {
   try {
-   const one = userManager.readOne("2334e8624873128c6d41e843")
-   return res.render("register",{one})
+   
+   return res.render("register")
   } catch (error) {
     next(error);
   }

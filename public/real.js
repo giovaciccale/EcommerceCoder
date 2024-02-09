@@ -17,7 +17,6 @@ socket.on("products", (productos) => {
   document.querySelector("#products").innerHTML = template;
 });
 
-
 socket.on("new success", (message) => alert(message));
 
 document.querySelector("#newProduct").addEventListener("click", (product) => {

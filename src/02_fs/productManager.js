@@ -51,9 +51,6 @@ class ProductManager {
   }
 
 
-
-
-
   read() {
     try {
       if (this.productos.length === 0) {

@@ -1,18 +1,21 @@
 import { socketServer } from "../../server.js";
-import productManager from "../02_fs/productManager.js";
+// import products from "../02_fs/productManager.js";
+import { products } from "../mongo/manager.mongo.js"
 import propsProductsUtils from "./propsProducts.utils.js";
 
 const messages = [];
 export default (socket) => {
   console.log(socket.id);
 
-  socketServer.emit("products", productManager.read());
+  // socketServer.emit("products", products.read());
+
+
   socket.on("newProduct", async (data) => {
     try {
       propsProductsUtils(data);
       console.log(data);
-      await productManager.create(data);
-      socketServer.emit("products", productManager.read());
+      await products.create(data);
+      // socketServer.emit("products",  products.read());
     } catch (error) {
       console.log(error);
     }
