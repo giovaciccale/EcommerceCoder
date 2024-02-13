@@ -75,6 +75,23 @@ class UserManager {
     }
   }
 
+  readByEmail(email) {
+    try {
+      const resultado = fs.readFileSync(this.ruta, "utf-8");
+      this.usuarios = JSON.parse(resultado);
+      const usuario = this.usuarios.find((each) => each.email === email);
+
+
+      if (!usuario) {
+        throw new Error("Don't exist user with Email " + email);
+      } else;
+      return usuario;
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  }
+
   async update(id, newData) {
     try {
       const resultado = await fs.promises.readFile(this.ruta, "utf-8");

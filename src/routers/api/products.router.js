@@ -1,16 +1,19 @@
 import { Router } from "express";
-import productManager from "../../02_fs/productManager.js";
+// import products from "../../02_fs/productManager.js";
 import propsProducts from "../../middlewares/propsProducts.mid.js"
-import isAdmindMid from "../../middlewares/isAdmind.mid.js";
+
+
+import { products } from "../../mongo/manager.mongo.js"
+
 
 const ProductsRouter = Router();
 
 // Definir los endpoints (POST GET PUT DELETE)
 
-ProductsRouter.post("/", isAdmindMid, propsProducts, async (req, res,next) => {
+ProductsRouter.post("/", propsProducts, async (req, res,next) => {
   try {
     const data = req.body;
-    const response = await productManager.create(data);
+    const response = await products.create(data);
     return res.json({
       statusCode: 201,
       message: "created",
@@ -23,19 +26,31 @@ ProductsRouter.post("/", isAdmindMid, propsProducts, async (req, res,next) => {
 
 ProductsRouter.get("/", async (req, res,next) => {
   try {
-    const all = await productManager.read();
+    const options = {
+      limit: req.query.limit || 10,
+      page: req.query.page || 1,
+      sort: { title: 1 },
+    };
+    const filter = {};
+    if (req.query.title) {
+      filter.title = new RegExp(req.query.title.trim(), "i");
+    }
+
+    const all = await products.read({ filter, options });
     return res.json({
-      success: true,
+      statusCode: 200,
       response: all,
     });
   } catch (error) {
-    return next(error)
+    return next(error);
   }
 });
+
+
 ProductsRouter.get("/:pid", async (req, res,next) => {
   try {
     const { pid } = req.params;
-    const one = productManager.readOne(pid);
+    const one = await products.readOne(pid);
     return res.json({
       success: true,
       response: one,
@@ -50,7 +65,7 @@ ProductsRouter.put("/:pid", propsProducts, async (req, res, next) => {
   try {
     const { pid } = req.params;
     const newData = req.body;
-    const updatedProduct = await productManager.update(pid, newData);
+    const updatedProduct = await products.update(pid, newData);
     return res.json({
       success: true,
       message: "Product updated successfully",
@@ -68,7 +83,7 @@ ProductsRouter.delete("/:pid", async (req, res,next) => {
 
   try {
     const { pid } = req.params;
-    const updatedOrder = await productManager.destroy(pid);
+    const updatedOrder = await products.destroy(pid);
     return res.json({
       success: true,
       message: "Products delete successfully",

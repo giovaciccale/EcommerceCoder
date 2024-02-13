@@ -1,29 +1,3 @@
 [
-  {
-    "id": "fd7071f67c7bdb7d52af1768",
-    "title": "Heladera Freezer Superior Samsung No Frost 382 L Rt38k5932sl Color Inox",
-    "photo": "https://www.karvi.com.ar/blog/wp-content/uploads/2022/01/Cronos0-850x524.jpg",
-    "price": "$1.106.819,10",
-    "stock": "300"
-  },
-  {
-    "id": "c6a97cf22d4667d1aa5a0a84",
-    "title": "Peugeot 208 1.6l Active Pack Tiptronic",
-    "photo": "https://www.mundodelmotor.net/wp-content/uploads/2023/05/Que-es-un-auto-coche-hatchback-caracteristicas-y-ventajas.jpg",
-    "price": "5.00000",
-    "stock": "22"
-  },
-  {
-    "id": "e7cec91a39929459803a30ff",
-    "title": "Actualice de nuevo el ultimo",
-    "photo": "https://i.pinimg.com/736x/ec/bf/66/ecbf66484f8439fd7021f3ef224a50a8.jpg",
-    "price": "data.price"
-  },
-  {
-    "id": "759e7139e6ee57ae71c20210",
-    "title": "Domingo",
-    "photo": "https://ichef.bbci.co.uk/news/800/cpsprodpb/6B34/production/_94244472_9.jpg",
-    "price": "800",
-    "stock": "1"
-  }
+  
 ]
