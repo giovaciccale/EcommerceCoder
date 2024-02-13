@@ -4,7 +4,7 @@ import { users } from "../../mongo/manager.mongo.js"
 
 const userRouter = Router();
 
-userRouter.get("/register", async (req, res, next) => {
+userRouter.get("/auth/register", async (req, res, next) => {
   try {
    
    return res.render("register")

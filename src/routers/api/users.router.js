@@ -47,10 +47,10 @@ usersRouter.get("/", async (req, res, next) => {
 });
 
 
-usersRouter.get("/:eid", async (req, res, next) => {
+usersRouter.get("/:uemail", async (req, res, next) => {
   try {
-    const { eid } = req.params;
-    const one = await users.readByEmail(eid);
+    const { uemail } = req.params;
+    const one = await users.readByEmail(uemail);
     return res.json({
       success: true,
       response: one,

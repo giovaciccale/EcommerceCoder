@@ -28,7 +28,7 @@ productsRouter.get("/real", async (req, res, next) => {
   }
 });
 
-productsRouter.get("/form", (req, res, next) => {
+productsRouter.get("/products/form", (req, res, next) => {
   try {
     return res.render("real");
   } catch (error) {
