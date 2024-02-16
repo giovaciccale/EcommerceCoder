@@ -1,7 +1,7 @@
 import { Router } from "express";
 // import products from "../../02_fs/productManager.js";
 import propsProducts from "../../middlewares/propsProducts.mid.js"
-
+import isAdmindMid from "../../middlewares/isAdmind.mid.js";
 
 import { products } from "../../mongo/manager.mongo.js"
 
@@ -10,7 +10,7 @@ const ProductsRouter = Router();
 
 // Definir los endpoints (POST GET PUT DELETE)
 
-ProductsRouter.post("/", propsProducts, async (req, res,next) => {
+ProductsRouter.post("/",isAdmindMid, propsProducts, async (req, res,next) => {
   try {
     const data = req.body;
     const response = await products.create(data);
