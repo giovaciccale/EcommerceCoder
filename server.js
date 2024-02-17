@@ -17,7 +17,7 @@ import expressSession from "express-session";
 import cookieParser from "cookie-parser";
 
 import sessionFileStore from "session-file-store";
-// import MongoStore from "connect-mongo";
+import MongoStore from "connect-mongo";
 
 
 //socket io
@@ -49,12 +49,38 @@ server.use(express.urlencoded({ extended: true }));
 server.use(express.static(__dirname + "/public"));
 server.use(morgan("dev"));
 server.use(cookieParser(process.env.SECRET_KEY));
+//MEMORY STORE
+/* server.use(
+  expressSession({
+    secret: process.env.SECRET_KEY,
+    resave: true,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 },
+  })
+); */
+//FILE STORE
+/* server.use(
+  expressSession({
+    secret: process.env.SECRET_KEY,
+    resave: true,
+    saveUninitialized: true,
+    store: new FileStore({
+      path: "./src/02_fs/data/sessions",
+      ttl: 10,
+      retries: 2,
+    }),
+  })
+); */
+//MONGO STORE
 server.use(
   expressSession({
     secret: process.env.SECRET_KEY,
     resave: true,
     saveUninitialized: true,
-   
+    store: new MongoStore({
+      ttl: 7 * 24 * 60 * 60, //chequear la unidad de ttl
+      mongoUrl: process.env.UPPER_SNAKE_CASE,
+    }),
   })
 );
  
