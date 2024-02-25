@@ -12,6 +12,8 @@ const schema = new Schema(
       default: "https://www.klipartz.com/es/sticker-png-fpoay",
     },
     email: { type: String, index: true },
+    password: { type: String
+      ,required: true },
     data: { type: Date, default: new Date() },
   },
   { timestamps: true }
