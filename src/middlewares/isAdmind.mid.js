@@ -2,7 +2,7 @@ export default (req, res, next) => {
     try {
       //console.log(req.session);
       const { role } = req.session;
-      //console.log(role);
+      // console.log(role);
       if (role === "admin") {
         return next();
       } else {

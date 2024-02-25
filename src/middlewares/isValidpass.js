@@ -9,6 +9,7 @@ async function isValidPass(req, res, next) {
     isValidPassUtils(password, dbPassword);
     return next();
   } catch (error) {
+   
     return next(error);
   }
 }

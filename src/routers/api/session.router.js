@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { users } from "../../mongo/manager.mongo.js";
 import has8char from "../../middlewares/has8char.js";
-import isValidPass from "../../utils/isValidpass.js";
+import isValidPass from "../../middlewares/isValidpass.js";
 
 const sessionsRouter = Router();
 
@@ -27,7 +27,7 @@ sessionsRouter.post("/login", isValidPass, async (req, res, next) => {
       req.session.email = email;
       //el role se está hardcodeando, pero luego hay que buscarlo en mongo
       //para saber el role real del usuario que inició sesión
-      req.session.role = "user";
+      req.session.role = "admin";
       return res.json({
         statusCode: 200,
         message: "Logged in!",

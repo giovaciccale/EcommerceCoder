@@ -9,7 +9,7 @@ const usersRouter = Router();
 
 // Definir los endpoints (POST GET PUT DELETE)
 
-usersRouter.post("/", isAdmindMid, propsUsers, async (req, res, next) => {
+usersRouter.post("/",isAdmindMid, propsUsers, async (req, res, next) => {
   try {
     const data = req.body;
     const response = await users.create(data);
