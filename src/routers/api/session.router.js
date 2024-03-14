@@ -2,45 +2,87 @@ import { Router } from "express";
 import { users } from "../../mongo/manager.mongo.js";
 import has8char from "../../middlewares/has8char.js";
 import isValidPass from "../../middlewares/isValidpass.js";
-
+import passport from "../../middlewares/passport.mid.js";
+import passCallBack from "../../middlewares/passCallBack.mid.js";
 const sessionsRouter = Router();
 
 //register
-sessionsRouter.post("/register", has8char, async (req, res, next) => {
-  try {
-    const data = req.body;
-    await users.create(data);
-    return res.json({
-      statusCode: 201,
-      message: "Registered!",
-    });
-  } catch (error) {
-    return next(error);
+sessionsRouter.post(
+  "/register",
+  has8char,
+  // passport.authenticate("register", {
+  //   session: false,
+  //   failureRedirect: "/api/sessions/badauth",
+  // }),
+  passCallBack("register"),
+  async (req, res, next) => {
+    try {
+      return res.json({
+        statusCode: 201,
+        message: "Registered!",
+      });
+    } catch (error) {
+      return next(error);
+    }
   }
-});
+);
 
-//login
-sessionsRouter.post("/login", isValidPass, async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    if (email && password === "hola1234") {
-      req.session.email = email;
-      //el role se está hardcodeando, pero luego hay que buscarlo en mongo
-      //para saber el role real del usuario que inició sesión
-      req.session.role = "admin";
+// login
+sessionsRouter.post(
+  "/login",
+  // passport.authenticate("login", {
+  //   session: false,
+  //   failureRedirect: "/api/sessions/badauth",
+  // }),
+  passCallBack("login"),
+  async (req, res, next) => {
+    try {
+      return res
+        .cookie("token", req.token, {
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        })
+        .json({
+          statusCode: 200,
+          message: "Logged in!",
+        });
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+//google
+// CAMBIAR A POST PARA CREAR BOTON DE GOOGLE
+sessionsRouter.get(
+  "/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+//google-callback
+sessionsRouter.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/api/sessions/badauth",
+  }),
+  async (req, res, next) => {
+    try {
       return res.json({
         statusCode: 200,
-        message: "Logged in!",
+        message: "Logged in with google!",
         session: req.session,
       });
+    } catch (error) {
+      return next(error);
     }
-    const error = new Error("Bad Auth");
-    error.statusCode = 401;
-    throw error;
-  } catch (error) {
-    return next(error);
   }
-});
+);
+
+//google
+sessionsRouter.post(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] })
+);
 
 //me
 sessionsRouter.post("/", async (req, res, next) => {
@@ -61,22 +103,47 @@ sessionsRouter.post("/", async (req, res, next) => {
 });
 
 //signout
-sessionsRouter.post("/signout", async (req, res, next) => {
-  try {
-    if (req.session.email) {
-      req.session.destroy();
-      return res.json({
+sessionsRouter.post(
+  "/signout",
+  /*   passport.authenticate("jwt", {
+    session: false,
+    failureRedirect: "/api/sessions/signout/cb",
+  }), */
+  passCallBack("jwt"),
+  async (req, res, next) => {
+    try {
+      return res.clearCookie("token").json({
         statusCode: 200,
         message: "Signed out!",
       });
-    } else {
-      const error = new Error("No Auth");
-      error.statusCode = 400;
-      throw error;
+    } catch (error) {
+      return next(error);
     }
+  }
+);
+//badauth
+sessionsRouter.get("/badauth", (req, res, next) => {
+  try {
+    return res.json({
+      statusCode: 401,
+      message: "Bad auth",
+    });
   } catch (error) {
     return next(error);
   }
 });
+
+//signout/cb
+sessionsRouter.get("/signout/cb", (req, res, next) => {
+  try {
+    return res.json({
+      statusCode: 400,
+      message: "Already done",
+    });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 
 export default sessionsRouter;

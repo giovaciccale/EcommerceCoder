@@ -47,7 +47,7 @@ class MongoManager {
   async readByEmail(email) {
     try {
       const one = await this.model.findOne({ email });
-      notFoundOne(one);
+      //notFoundOne(one);
       return one;
     } catch (error) {
       throw error;
@@ -104,27 +104,27 @@ async report(uid) {
         },
       },
       //$replaceRoot para mergear el objeto con el objeto cero del array populado
-      // {
-      //   $replaceRoot: {
-      //     newRoot: {
-      //       $mergeObjects: [{ $arrayElemAt: ["$product_id", 0] }, "$$ROOT"],
-      //     },
-      //   },
-      // },
-      //$set para agregar la propiedad subtotal = price*quantity
-      // { $set: { subtotal: { $multiply: ["$price", "$quantity"] } } },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: [{ $arrayElemAt: ["$product_id", 0] }, "$$ROOT"],
+          },
+        },
+      },
+      // $set para agregar la propiedad subtotal = price*quantity
+      { $set: { subtotal: { $multiply: ["$price", "$quantity"] } } },
       //$group para agrupar por user_id y sumar los subtotales
-      // { $group: { _id: "$user_id", total: { $sum: "$subtotal" } } },
+      { $group: { _id: "$user_id", total: { $sum: "$subtotal" } } },
       //$project para limpiar el objeto (dejar sólo user_id, total y date)
-      // {
-      //   $project: {
-      //     _id: false,
-      //     user_id: "$_id",
-      //     total: "$total",
-      //     date: new Date(),
-      //     currency: "USD",
-      //   },
-      // },
+      {
+        $project: {
+          _id: false,
+          user_id: "$_id",
+          total: "$total",
+          date: new Date(),
+          currency: "USD",
+        },
+      },
       //{ $merge: { into: "bills" }}
     ]);
     return report;

@@ -2,15 +2,15 @@ import { Router } from "express";
 // import products from "../../02_fs/productManager.js";
 import propsProducts from "../../middlewares/propsProducts.mid.js"
 import isAdmindMid from "../../middlewares/isAdmind.mid.js";
-
+// import isAuthMid from "../../middlewares/isAuth.mid.js";
 import { products } from "../../mongo/manager.mongo.js"
-
+import passport from "../../middlewares/passport.mid.js";
 
 const ProductsRouter = Router();
 
 // Definir los endpoints (POST GET PUT DELETE)
 
-ProductsRouter.post("/",isAdmindMid, propsProducts, async (req, res,next) => {
+ProductsRouter.post("/",passport.authenticate("jwt",{ session:false}), isAdmindMid, propsProducts, async (req, res,next) => {
   try {
     const data = req.body;
     const response = await products.create(data);
@@ -26,16 +26,19 @@ ProductsRouter.post("/",isAdmindMid, propsProducts, async (req, res,next) => {
 
 ProductsRouter.get("/", async (req, res,next) => {
   try {
-    const options = {
-      limit: req.query.limit || 10,
-      page: req.query.page || 1,
-      sort: { title: 1 },
-    };
+  
     const filter = {};
     if (req.query.title) {
       filter.title = new RegExp(req.query.title.trim(), "i");
     }
 
+    const options = {
+      lean: true,
+      limit: req.query.limit || 10,
+      page: req.query.page || 1,
+      sort: { title: 1 },
+    };
+    
     const all = await products.read({ filter, options });
     return res.json({
       statusCode: 200,
