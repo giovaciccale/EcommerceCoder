@@ -51,8 +51,9 @@ sessionsRouter.post(
     }
   }
 );
+
+
 //google
-// CAMBIAR A POST PARA CREAR BOTON DE GOOGLE
 sessionsRouter.get(
   "/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
@@ -67,6 +68,7 @@ sessionsRouter.get(
   }),
   async (req, res, next) => {
     try {
+      console.log("Google authentication successful!");
       return res.json({
         statusCode: 200,
         message: "Logged in with google!",
@@ -78,11 +80,34 @@ sessionsRouter.get(
   }
 );
 
-//google
+
+//github
 sessionsRouter.post(
   "/github",
   passport.authenticate("github", { scope: ["user:email"] })
 );
+
+//github-callback
+sessionsRouter.get(
+  "/github/callback",
+  passport.authenticate("github", {
+    session: false,
+    failureRedirect: "/api/sessions/badauth",
+  }),
+  async (req, res, next) => {
+    try {
+      return res.json({
+        statusCode: 200,
+        message: "Logged in with github!",
+        session: req.session,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
+
+
 
 //me
 sessionsRouter.post("/", async (req, res, next) => {

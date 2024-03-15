@@ -18,6 +18,8 @@ import cookieParser from "cookie-parser";
 
 import sessionFileStore from "session-file-store";
 import MongoStore from "connect-mongo";
+import cors from "cors";
+
 
 
 //socket io
@@ -49,6 +51,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use(express.static(__dirname + "/public"));
 server.use(morgan("dev"));
 server.use(cookieParser(process.env.SECRET_KEY));
+server.use(cors());
 //MEMORY STORE
 /* server.use(
   expressSession({

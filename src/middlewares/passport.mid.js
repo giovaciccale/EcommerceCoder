@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
+import { Strategy as GithubStrategy } from "passport-google-oauth2";
 import { createHash, verifyHash } from "../utils/has.utils.js";
 import { users } from "../mongo/manager.mongo.js";
 import { createToken } from "../utils/token.js";
@@ -63,9 +64,8 @@ passport.use(
       clientSecret: GOOGLE_CLIENT,
       callbackURL: "http://localhost:8080/api/sessions/google/callback",
     },
-    async (req, accessToken, refreshToken, profile, done) => {
-      try {
-        console.log(profile);
+    async (req, accessToken, refreshToken, profile, done) => {     
+      try {      
         let user = await users.readByEmail(profile.id + "@gmail.com");
         if (!user) {
           user = {
@@ -86,6 +86,44 @@ passport.use(
     }
   )
 );
+
+
+
+passport.use(
+  "github",
+  new GithubStrategy(
+    {
+      passReqToCallback: true,
+      clientID: GITHUB_ID,
+      clientSecret: GITHUB_CLIENT,
+      callbackURL: "http://localhost:8080/api/sessions/github/callback",
+    },
+    async (req, accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await users.readByEmail(profile.id + "@github.com");
+        if (!user) {
+          user = {
+            email: profile.id + "@github.com",
+            name: profile.username,
+            photo: profile._json.avatar_url,
+            password: createHash(profile.id),
+          };
+          user = await users.create(user);
+        }
+        req.session.email = user.email;
+        req.session.role = user.role;
+        return done(null, user);
+      } catch (error) {
+        return done(error);
+      }
+    }
+  )
+);
+
+
+
+
+
 
 passport.use(
   "jwt",
