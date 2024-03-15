@@ -40,19 +40,13 @@ ordersRouter.get("/total/:uid", async (req, res, next) => {
 
 ordersRouter.get("/", async (req, res, next) => {
   try {
-    const options = {
-      limit: req.query.limit || 10,
-      page: req.query.page || 1,
-      sort: { email: 1 },
-    };
+
     const filter = {};
-    if (req.query.quantity) {
-      filter.quantity = new RegExp(req.query.quantity.trim(), "i");
+    if (req.query.user_id) {
+      filter.user_id = req.query.user_id;
     }
-    if (req.query.sort === "desc") {
-      options.sort.quantity = "desc";
-    }
-    const all = await orders.read({ filter, options });
+    
+    const all = await orders.read({ filter });
     return res.json({
       statusCode: 200,
       response: all,
@@ -90,7 +84,7 @@ ordersRouter.put("/:oid", async (req, res, next) => {
   }
 });
 
-ordersRouter.delete("/:oid", async (req, res) => {
+ordersRouter.delete("/:oid", async (req, res, next) => {
   try {
     const { oid } = req.params;
     const updatedOrder = await orders.destroy(oid);

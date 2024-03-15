@@ -1,3 +1,9 @@
+<!-- index.handlebars -->
+{{{main}}} <!-- Asegúrate de pasar el token al contexto de products.handlebars -->
+<main class="flex-grow-1 w-100 d-flex flex-column">
+  <!-- Resto del contenido de index.handlebars -->
+
+
 <div class="d-flex flex-wrap justify-content-evenly mt-4"> <!-- mt-4 agrega un margen-top de 4 unidades (puedes ajustar según sea necesario) -->
   {{#each Productos}}
     <div class="card" style="width: 18rem; margin-bottom: 20px;">
@@ -11,3 +17,5 @@
     </div>
   {{/each}}
 </div>
+
+</main>

@@ -24,7 +24,8 @@ userRouter.get("/auth/login", async (req, res, next) => {
 
 userRouter.get("/chat", async (req, res, next) => {
   try {
-   return res.render("chat",{})
+    const loggedIn = req.isAuthenticated();
+    return res.render("chat", { loggedIn });
   } catch (error) {
     next(error);
   }
